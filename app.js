@@ -12,8 +12,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.get("/",function(req,res){
+    res.sendFile(__dirname+"/index.html");
+});
 
+app.get("/home",function(req,res){
     res.render("home");
+});
+
+app.get("/contacts",function(req,res){
+    res.render("contacts");
+});
+
+app.get("/about",function(req,res){
+    res.render("about");
 });
 
 app.listen(3000,function(req,res){

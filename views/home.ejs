@@ -1,5 +1,41 @@
-<%- include("Partials/header"); -%>
+<html lang="en">
 
-<script src="eyes.js" charset="utf-8"> </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Sleep Monitor</title>
+    <script async src="../opencv/opencv.js" onload="openCvReady();"></script>
+    <script src="../opencv/utils.js"></script>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <p class="navbar-brand" style="color: #1abc9c;font-size: 25px;">SLEEP MONITOR</p>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- 6 -->
+                <li id="home"><a href="/">HOME</a></li>
+                <li id="about"><a href="/about">ABOUT</a></li>
+                <li id="contacts"><a href="/contacts">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+</head>
 
-<%- include("Partials/footer"); -%>
+<body>
+    <div class="container">
+        <video id="cam_input" height="480" width="640" style="width: 0px;"></video>
+        <canvas id="canvas_output" style="margin-left: 250px; margin-top: 20px;"></canvas>
+    </div>
+</body>
+<script src="../js/eyes.js"></script>
+<footer>
+    <div class="footer-padding"></div>
+    <div class="footer">
+        <p>Made by Sriyans</p>
+    </div>
+    </div>
+</footer>
+
+</html>
