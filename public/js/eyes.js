@@ -6,7 +6,7 @@ async function loadTfModel(){
 }
 let model = loadTfModel();
 function openCvReady() {
-    let video = document.getElementById("cam_input"); // video is the id of video tag
+    let video = document.getElementById("cam_input");
     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
         .then(function (stream) {
             video.srcObject = stream;
@@ -28,14 +28,14 @@ function openCvReady() {
     let classifier_right = new cv.CascadeClassifier();
 
     let utils = new Utils('errorMessage');
-    let leftCascadeFile = 'haarcascade_lefteye_2splits.xml'; // path to xml
+    let leftCascadeFile = 'haarcascade_lefteye_2splits.xml'; 
     let rightCascadeFile = 'haarcascade_righteye_2splits.xml';
 
     utils.createFileFromUrl(leftCascadeFile, leftCascadeFile, () => {
-        classifier_left.load(leftCascadeFile); // in the callback, load the cascade from file 
+        classifier_left.load(leftCascadeFile); 
     });
     utils.createFileFromUrl(rightCascadeFile, rightCascadeFile, () => {
-        classifier_right.load(rightCascadeFile); // in the callback, load the cascade from file 
+        classifier_right.load(rightCascadeFile);
     });
 
     const FPS = 24;
