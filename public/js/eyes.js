@@ -1,11 +1,10 @@
 
 async function loadTfModel(){
-    const model = tf.loadLayersModel("../tf_model/model.json"); 
-    console.log(model);
+    let m = tf.loadLayersModel("../tf_model/model.json"); 
     console.log("Model Loaded!");
+    return m;
 }
-loadTfModel();
-
+let model = loadTfModel();
 function openCvReady() {
     let video = document.getElementById("cam_input"); // video is the id of video tag
     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
@@ -20,7 +19,6 @@ function openCvReady() {
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
     let gray = new cv.Mat();
-
     let cap = new cv.VideoCapture(cam_input);
 
     let left_eye = new cv.RectVector();
@@ -45,7 +43,6 @@ function openCvReady() {
     function processVideo() {
 
         let begin = Date.now();
-
         cap.read(src);
         src.copyTo(dst);
         cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
@@ -59,11 +56,10 @@ function openCvReady() {
 
         for (let i = 0; i < Math.min(left_eye.size(),right_eye.size()); ++i) {
 
-            let left_output=0,right_output=0;
-
             let le = left_eye.get(i);
             let re = right_eye.get(i);
 
+            
             let point1 = new cv.Point(le.x, le.y);
             let point2 = new cv.Point(le.x + le.width, le.y + le.height);
 
@@ -73,40 +69,47 @@ function openCvReady() {
             point2 = new cv.Point(re.x + re.width, re.y + re.height);
 
             cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
-            
-            /*let new_dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
-            src.copyTo(new_dst);
-            let rect = new cv.Rect(re.x, re.y,re.x + re.width, re.y + re.height);
-            let right_img = new cv.Mat();
-            right_img = new_dst.roi(rect);
-            let r_ts = tf.browser.fromPixels(right_img,3)
+
+            let canvas = document.getElementById("canvas_output");
+            let ctx = canvas.getContext('2d');
+            let imgData = ctx.getImageData(re.x, re.y, re.width, re.height);
+            // console.log(imgData);
+            model.then(function (res) {
+                const example = tf.browser.fromPixels(imgData,1)
                 .resizeNearestNeighbor([24,24])
                 .toFloat()
                 .div(tf.scalar(255.0))
                 .expandDims();
-            right_output = model.predict(r_ts).data();
-            console.log(right_output);
-            let right_img = src;
+                const prediction = res.predict(example);
+                const yourClass = prediction.argMax(-1).dataSync()[0];
+                
+                if(yourClass == "1" ){
+                    console.log("Awake");
+                }
 
-            let l_ts = tf.browser.fromPixels(left_img,3)
+            }, function (err) {
+                console.log(err);
+            });
+            imgData = ctx.getImageData(le.x,le.y,le.width,le.height);
+            model.then(function (res) {
+                const example = tf.browser.fromPixels(imgData,1)
                 .resizeNearestNeighbor([24,24])
                 .toFloat()
                 .div(tf.scalar(255.0))
                 .expandDims();
-            console.log(l_ts);
-            
+                const prediction = res.predict(example);
+                const yourClass = prediction.argMax(-1).dataSync()[0];
+                
+                if(yourClass == "1" ){
+                    console.log("Awake");
+                }
 
-            left_output =  await model.predict(l_ts).data();
-            
-            
-            if(left_output==0 || right_output==0)
-                $("h3").text("CLOSED");
-            else
-                $("h3").text("OPEN");*/
+            }, function (err) {
+                console.log(err);
+            });
         }
-
-        cv.imshow("canvas_output", dst);
         // schedule next one.
+        cv.imshow("canvas_output",dst);
         let delay = 1000 / FPS - (Date.now() - begin);
         setTimeout(processVideo, delay);
     }

@@ -4,3 +4,4 @@ harr_casscades/
 model/
 dataset/
 tf_model/
+.xml

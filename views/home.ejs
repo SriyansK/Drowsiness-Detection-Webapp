@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <title>Sleep Monitor</title>
-    <script async src="../opencv/opencv.js" onload="openCvReady();"></script>
+    <script async src="../opencv/opencv.js" onload="openCvReady()"></script>
     <script src="../opencv/utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <nav class="navbar navbar-default" style="background-color: rgb(112, 112, 112);">
@@ -27,14 +27,14 @@
     <h1 style="text-align: center; color: black;">Webcam</h1>
     <div class="container">
         <br>
-        <video id="cam_input" height="480" width="640" style="width: 0px;"></video>
+        <video id="cam_input" height="480" width="640" style="width:0px;"></video>
         <canvas id="canvas_output" style="margin-left: 250px; margin-top: 20px;"></canvas>
         <br>
     </div>
     <h3 style="text-align: center;">Sleeping</h3>
     <br>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script async src="../js/eyes.js" onload="loadTfModel();"></script>
+    <script async src="../js/eyes.js" onload="loadTfModel()"></script>
     <br>
 </body>
 <footer>
