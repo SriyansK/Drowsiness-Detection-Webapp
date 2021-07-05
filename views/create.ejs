@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sleep Monitor</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <nav class="navbar navbar-default" style="background-color: rgb(112, 112, 112);">
+        <div class="container">
+            <div class="navbar-header">
+                <p class="navbar-brand" style="color: #1abc9c;font-size: 25px;">SLEEP MONITOR</p>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- 6 -->
+                <li id="home"><a href="/" style="color:rgb(224, 221, 221);">HOME</a></li>
+                <li id="about"><a href="/about" style="color:rgb(224, 221, 221);">ABOUT</a></li>
+                <li id="contacts"><a href="/contacts" style="color:rgb(224, 221, 221);">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+<body>
+    <form method="post">
+        <br>
+        <h3>Enter username:</h3>
+        <input type="text" class="form-control" style="width: 50%; margin-bottom: 10px;" name="username">
+        <h3>Enter password:</h3>
+        <input type="password" class="form-control" style="width: 50%; margin-bottom: 10px;" name="password">
+        <h3>Enter password again:</h3>
+        <input type="password" class="form-control" style="width: 50%; margin-bottom: 10px;" name="new password">
+        <h3>Enter emergency phone number:</h3>
+        <div class="new_contact">
+            <input type="text" class="form-control " style="width: 50%; margin-bottom: 10px;" name="phone">
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary add_new" style="margin-left:630px">Add New Contact</button>
+        </div>
+        <button type="submit" class="btn btn-primary login-btn"
+            style="margin-top: 20px; margin-bottom: 10px;">Create</button>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(".add_new").click(function (event) {
+            $(".new_contact").append('<input type="text" class="form-control" style="width: 50%; margin-bottom: 10px;" name="phone">');
+        });
+    </script>
+</body>
+<%- include("Partials/footer"); -%>

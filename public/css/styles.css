@@ -1,3 +1,10 @@
+.login-container{
+    background-color: rgb(194, 194, 194);
+    border-radius: 25px;
+    margin-top: 10px;
+    border-style:solid;
+}
+
 .container-fluid {
     padding-top: 70px;
     padding-bottom: 70px;
@@ -49,4 +56,8 @@
 body {
     background: rgb(139,249,227);
     background: linear-gradient(0deg, rgba(139,249,227,1) 0%, rgba(112, 112, 112,1) 75%);
+}
+
+.contact-body{
+    background: rgb(139,249,227);
 }

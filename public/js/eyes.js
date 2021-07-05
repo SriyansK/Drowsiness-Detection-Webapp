@@ -7,6 +7,7 @@ async function loadTfModel(){
 let model = loadTfModel();
 function openCvReady() {
     let video = document.getElementById("cam_input");
+    var audio = new Audio("../sounds/siren.wav");
     navigator.mediaDevices.getUserMedia({ video: true, audio: false })
         .then(function (stream) {
             video.srcObject = stream;
@@ -83,8 +84,12 @@ function openCvReady() {
                 const prediction = res.predict(example);
                 const yourClass = prediction.argMax(-1).dataSync()[0];
                 
-                if(yourClass == "1" ){
-                    console.log("Awake");
+                if(yourClass === 1){
+                    $(".result").text("Awake")
+                   
+                }else{
+                    $(".result").text("Sleeping")
+                    audio.play();
                 }
 
             }, function (err) {
@@ -100,8 +105,11 @@ function openCvReady() {
                 const prediction = res.predict(example);
                 const yourClass = prediction.argMax(-1).dataSync()[0];
                 
-                if(yourClass == "1" ){
-                    console.log("Awake");
+                if(yourClass === 1){
+                    $(".result").text("Awake")
+                }else{
+                    $(".result").text("Sleeping")
+                    audio.play();
                 }
 
             }, function (err) {

@@ -1,2 +1,39 @@
-<%- include("Partials/header"); -%>
-<%- include("Partials/footer"); -%>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sleep Monitor</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <nav class="navbar navbar-default" style="background-color: rgb(112, 112, 112);">
+        <div class="container">
+            <div class="navbar-header">
+                <p class="navbar-brand" style="color: #1abc9c;font-size: 25px;">SLEEP MONITOR</p>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- 6 -->
+                <li id="home"><a href="/" style="color:rgb(224, 221, 221);">HOME</a></li>
+                <li id="about"><a href="/about" style="color:rgb(224, 221, 221);">ABOUT</a></li>
+                <li id="contacts"><a href="/contacts" style="color:rgb(224, 221, 221);">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+<body class="contact-body">
+    <div class="container">
+        <h1>Feedback Form</h1>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <form method="post">
+                    <h3>Email</h3>
+                    <input type="email" class="form-control" name="email" style="width: 50%;">
+                    <h3>Feedback</h3>
+                    <textarea class="form-control" name="content" rows="4" cols="50"></textarea>
+                    <button type="submit" class="btn btn-primary feedback-btn"
+                        style=" margin-top: 20px; margin-bottom: 10px;">Submit</button>
+                </form>
+            </div>
+        </div>
+        <%- include("Partials/footer"); -%>
