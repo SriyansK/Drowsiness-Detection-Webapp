@@ -5,6 +5,7 @@ async function loadTfModel(){
     return m;
 }
 let model = loadTfModel();
+
 function openCvReady() {
     let video = document.getElementById("cam_input");
     var audio = new Audio("../sounds/siren.wav");
@@ -40,6 +41,32 @@ function openCvReady() {
     });
 
     const FPS = 24;
+
+    var check = new Array;
+    
+    function gen_alert(){
+
+        var l=check.length;
+        var cnt=0;
+        console.log(l);
+        for(var i=0;i<l;i++){
+            if(check[i]===0){
+                cnt++;
+            }
+        }
+    
+        cnt = cnt*100;
+        cnt/=l;
+    
+        if(cnt>=75){
+            $(".alert").text("Sending Alert!!!");
+            console.log("Alert!!!");
+        }else{
+            console.log("Fine");
+        }
+    
+        check = [];
+    }
 
     function processVideo() {
 
@@ -83,7 +110,7 @@ function openCvReady() {
                 .expandDims();
                 const prediction = res.predict(example);
                 const yourClass = prediction.argMax(-1).dataSync()[0];
-                
+                check.push(yourClass);
                 if(yourClass === 1){
                     $(".result").text("Awake")
                    
@@ -104,7 +131,7 @@ function openCvReady() {
                 .expandDims();
                 const prediction = res.predict(example);
                 const yourClass = prediction.argMax(-1).dataSync()[0];
-                
+                check.push(yourClass);
                 if(yourClass === 1){
                     $(".result").text("Awake")
                 }else{
@@ -123,6 +150,7 @@ function openCvReady() {
     }
     // schedule first one.
     setTimeout(processVideo, 0);
+    setInterval(gen_alert,10000);
 }
 
 openCvReady();

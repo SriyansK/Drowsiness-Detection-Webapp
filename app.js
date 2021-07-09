@@ -27,15 +27,20 @@ const userSchema = new mongoose.Schema({
     status: Number
 });
 
-
 const Feedback = mongoose.model("Feedback",feedbackSchema);
 const User = mongoose.model("User",userSchema);
 
-var loginStatus=0;
+var loggedIn=0;
+var currUser;
+var phNums = new Array;
 
 app.route("/")
     .get(function(req,res){
-        res.sendFile(__dirname+"/index.html");
+        if(loggedIn === 1){
+            res.render("index",{loggedIn:"Logout"});
+        }else{
+            res.render("index",{loggedIn:"Login"});
+        }
     });
 
 app.route("/home")
@@ -95,11 +100,6 @@ app.route("/login")
     })
     .post(function(req,res){
 
-        if (loginStatus === 1){
-            console.log("Already Logged in.");
-            res.redirect("/");
-        }
-
         var userEmail = req.body.username;
         var userPassword = req.body.password;
         User.findOne({email:userEmail},function(err,foundEmail){
@@ -107,18 +107,22 @@ app.route("/login")
                 console.log(err);
             }else{
                 if(foundEmail){
+
                     bcrypt.hash(userPassword,saltRound,function(err,hash){
                         bcrypt.compare(userPassword,foundEmail.password,function(err,result){
                             if(err){
                                 console.log(err);
                             }else{
                                 if(result === true){
+                                    currUser=userEmail;
                                     foundEmail.status=1;
-                                    loginStatus=1;
+                                    loggedIn=1;
+                                    phNums = foundEmail.nums;
                                     foundEmail.save();
+                                    console.log("Logged in");
                                     res.redirect("/");
                                 }else{
-                                    console.log("Wrong PassWord");
+                                    console.log("Wrong Password");
                                 }
                             }
                         });
@@ -148,6 +152,7 @@ app.route("/create")
             }else{
                 if(foundEmail){
                     console.log("Email already exist!");
+                    res.redirect("/login");
                 }else{
                     if(userPassword != userNew_password){
                         console.log("Password Not matched");
@@ -178,6 +183,23 @@ app.route("/create")
             }
         });
 
+        res.redirect("/login");
+    });
+
+app.route("/logout")
+    .get(function(req,res){
+        console.log("Logged Out");
+        User.findOne({email:currUser},function(err,foundEmail){
+            if(err){
+                console.log(err);
+            }else{
+                if(foundEmail){
+                    foundEmail.status = 0;
+                    foundEmail.save();
+                }
+            }
+        });
+        loggedIn=0;
         res.redirect("/login");
     });
 
