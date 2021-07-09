@@ -7,4 +7,4 @@ tf_model/
 sounds/
 images/
 public/haarcascade_righteye_2splits.xml
-public/haarcascade_leftteye_2splits.xml
+public/haarcascade_lefteye_2splits.xml
