@@ -4,7 +4,7 @@ harr_casscades/
 model/
 dataset/
 tf_model/
-sounds/
-images/
+public/sounds/
+public/images/
 public/haarcascade_righteye_2splits.xml
 public/haarcascade_lefteye_2splits.xml
