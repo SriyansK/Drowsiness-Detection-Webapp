@@ -6,5 +6,5 @@ dataset/
 tf_model/
 sounds/
 images/
-haarcascade_righteye_2splits.xml/
-haarcascade_leftteye_2splits.xml/
+public/haarcascade_righteye_2splits.xml
+public/haarcascade_leftteye_2splits.xml
