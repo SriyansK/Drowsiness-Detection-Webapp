@@ -1,10 +1,6 @@
+dataset/
+model/SafeDrive.h5
 node_modules/
 opencv/
-harr_casscades/
-model/
-dataset/
-tf_model/
-public/sounds/
-public/images/
 public/haarcascade_righteye_2splits.xml
 public/haarcascade_lefteye_2splits.xml
