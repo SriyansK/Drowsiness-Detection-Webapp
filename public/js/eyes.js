@@ -1,10 +1,47 @@
-
 async function loadTfModel(){
     let m = tf.loadLayersModel("../tf_model/model.json"); 
     console.log("Model Loaded!");
     return m;
 }
 let model = loadTfModel();
+var curr_user = $(".curr_user").attr("data-curr_user");
+var ph_nums = $(".ph_nums").attr("data-ph_nums");
+
+var total_email = new Array;
+var temp_string = new String;
+
+for (var i=0; i<ph_nums.length;i++){
+    if(ph_nums[i]===','){
+        total_email.push(temp_string);
+        temp_string="";
+    }else{
+        temp_string+=ph_nums[i];
+    }
+};
+
+var body = curr_user + " is drowsy please inform."
+function sendEmail(){
+    for(var i=0;i<total_email.length;i++){
+        var reciever_email = total_email[i];
+        Email.send({
+            Host : "",
+            Username : "",
+            Password : "",
+            To : reciever_email,
+            From : "",
+            Subject : "Emergency Alert!!!",
+            Body : body
+        }).then(
+          message => {
+              if(message === "OK"){
+                  console.log("Message Sent");
+              }else{
+                  console.log(message);
+              }
+          }
+        );
+    };
+}
 
 function openCvReady() {
     let video = document.getElementById("cam_input");
@@ -45,7 +82,7 @@ function openCvReady() {
     var check = new Array;
     
     function gen_alert(){
-
+        
         var l=check.length;
         var cnt=0;
         console.log(l);
@@ -61,6 +98,7 @@ function openCvReady() {
         if(cnt>=75){
             $(".alert").text("Sending Alert!!!");
             console.log("Alert!!!");
+            sendEmail();
         }else{
             console.log("Fine");
         }

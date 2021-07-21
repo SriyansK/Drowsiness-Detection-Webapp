@@ -45,7 +45,10 @@ app.route("/")
 
 app.route("/home")
     .get(function(req,res){
-        res.render("home");
+        res.render("home" , {
+            ph_nums:phNums,
+            curr_user:currUser
+        });
     });
 
 app.route("/contacts")
@@ -123,6 +126,7 @@ app.route("/login")
                                     res.redirect("/");
                                 }else{
                                     console.log("Wrong Password");
+                                    res.redirect("/login");
                                 }
                             }
                         });
@@ -156,6 +160,7 @@ app.route("/create")
                 }else{
                     if(userPassword != userNew_password){
                         console.log("Password Not matched");
+                        res.redirect("/create");
                     }else{
                         bcrypt.hash(userPassword,saltRound,function(err,hash){
 
@@ -172,6 +177,7 @@ app.route("/create")
                                 newUser.save(function(err){
                                     if(err){
                                         console.log("Error adding new user");
+                                        res.redirect("/create")
                                     }else{
                                         console.log("User added");
                                     }
