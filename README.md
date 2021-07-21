@@ -58,8 +58,6 @@ python -m http.server
 ```
 
 ## Authors
-
-Contributors names and contact info
 Sriyans
 
 
