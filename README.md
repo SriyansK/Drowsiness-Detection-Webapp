@@ -22,15 +22,15 @@ to there contacts.
 
 ## Screenshots
 
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/1.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/2.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/3.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/4.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/5.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/6.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/7.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/8.png?raw=true)
-![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/tree/main/public/images/9.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/1.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/2.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/3.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/4.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/5.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/6.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/7.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/8.png?raw=true)
+![alt text](https://github.com/SriyansK/Drowsiness-detection-webapp/blob/main/public/images/9.png?raw=true)
 
 ### Dependencies
 
