@@ -51,13 +51,16 @@ to there contacts.
 * How to run the program
 * Step-by-step bullets
 ```
+python -m http.server
 nodemon app.js
 mongod
 mongo
-python -m http.server
 ```
 
 ## Authors
 Sriyans
 
+## Note 
+1. Download OpenCV.js and paste it into public/ . 
+2. Download haarcascade_righteye_2splits.xml and haarcascade_lefteye_2splits.xml then paste it into public/ . 
 
