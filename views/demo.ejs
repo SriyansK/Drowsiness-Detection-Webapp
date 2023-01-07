@@ -1,0 +1,24 @@
+<%- include("Partials/header"); -%>
+ 
+<script async src="../opencv/opencv.js" onload="openCvReady()"></script>
+<script src="../opencv/utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+
+
+<body>
+    <h1 style="text-align: center; color: black;">Webcam</h1>
+    <div class="container">
+        <br>
+        <video id="cam_input" height="480" width="640" style="width:0px;"></video>
+        <canvas id="canvas_output" style="margin-left: 250px; margin-top: 20px;"></canvas>
+        <br>
+    </div>
+    <h3 style="text-align: center;" class="result">Sleeping</h3>
+    <h3 style="text-align: center;" class="alert"></h3>>
+    <br>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script async src="../js/eyes.js" onload="loadTfModel()"></script>
+    <br>
+</body>
+<%- include("Partials/footer"); -%>

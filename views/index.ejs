@@ -1,0 +1,78 @@
+<%- include("Partials/header"); -%>
+
+<body>
+    <div class="container">
+        <br>
+        <img src="http://localhost:3000/images/car.jpg" style="position: absolute;left: 0px; width: 100%;top: 100px;" ></img>
+        <div class="row" style="padding-top: 400px;">
+            <table>
+                <tr>
+                    <td>
+                        <div id = "main_page_card" class="card child" style="width: 20rem; background-color: rgb(112, 112, 112);">
+                            <div class="card-body" style="color:whitesmoke;">
+                              <h5 class="card-title" style="font-size: xx-large;">Overview</h5>
+                              <p class="card-text" style="padding-bottom: 100px;font-size:medium;">This WebApp is designed to prevent accidents which are caused due to DROWSY DRIVING.</p>
+                              <a id = "main_page_button" href="/demo" class="btn btn-primary btn-lg" style="padding-right: 50px;">Try without login</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 290px;">
+                        <div id = "main_page_card" class="card child" style="width: 20rem; background-color: rgb(112, 112, 112);">
+                            <div class="card-body" style="color: whitesmoke;">
+                              <h5 class="card-title" style="font-size: xx-large;">Features</h5>
+                              <li>
+                                <p class="card-text" style="font-size:medium;">Sleep monitoring</p>
+                              </li>
+                              <li>
+                                <p class="card-text" style="font-size:medium;">Sirens</p>
+                              </li>
+                              <li>
+                                <p class="card-text" style="font-size:medium;padding-bottom: 40px;">Notifications</p>
+                              </li>
+                              <a id = "main_page_button" href="/about" class="btn btn-primary btn-lg" style="padding-right: 50px;">View all features </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 290px;">
+                        <div id = "main_page_card" class="card child" style="width: 20rem; background-color: rgb(112, 112, 112);">
+                            <div class="card-body" style="color: whitesmoke;">
+                              <h5 class="card-title" style="font-size: xx-large;">Features</h5>
+                              <li>
+                                <p class="card-text" style="font-size:medium;">User management</p>
+                              </li>
+                              <li>
+                                <p class="card-text" style="font-size:medium;">Emergency contact list</p>
+                              </li>
+                              <li>
+                                <p class="card-text" style="font-size:medium;padding-bottom: 40px;">Report</p>
+                              </li>
+                              <a id = "main_page_button" href="/about" class="btn btn-primary btn-lg" style="padding-right: 50px;">View all features </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+            
+        </div>
+        
+        <div class="col-lg-12 text-center">
+            <button type="text" class="btn btn-primary"><a href="/login" style="color: white;" class="loginpage"><%=loggedIn%></a></button>
+            <br>
+            <br>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        var status = $(".loginpage").text();
+        console.log(status);
+        if (status === "Login") {
+            $(".loginpage").attr("href", "/login");
+        } else {
+            $(".loginpage").attr("href", "/logout");
+        }
+
+    </script>
+</body>
+
+<%- include("Partials/footer"); -%>

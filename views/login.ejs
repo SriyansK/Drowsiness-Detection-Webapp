@@ -1,0 +1,31 @@
+<%- include("Partials/header"); -%>
+
+<body class="contact-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div class="login-container">
+                    <form method="post">
+                        <br>
+                        <h3 style="text-align: center;">Username</h3>
+                        <input type="text" class="form-control" style="width: 100%; margin-bottom: 10px;"
+                            name="username">
+                        <h3 style="text-align: center;">Password</h3>
+                        <input type="password" class="form-control" style="width: 100%; margin-bottom: 10px;"
+                            name="password">
+                        <button type="submit" class="btn btn-primary login-btn"
+                            style="margin-left: 150px; margin-top: 20px; margin-bottom: 10px;">Login</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary login-btn"
+                style="position: relative; left:375px; margin-top: 10px;"><a href="/create" style="color:white">Create
+                    Account</a></button>
+        </div>
+<%- include("Partials/footer"); -%>

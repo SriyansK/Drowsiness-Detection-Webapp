@@ -1,0 +1,32 @@
+<%- include("Partials/header"); -%>
+
+<body>
+    <form method="post">
+        <br>
+        <h3>Enter Name:</h3>
+        <input type="text" class="form-control" style="width: 50%; margin-bottom: 10px;" name="name">
+        <h3>Enter email:</h3>
+        <input type="text" class="form-control" style="width: 50%; margin-bottom: 10px;" name="username">
+        <h3>Enter password:</h3>
+        <input type="password" class="form-control" style="width: 50%; margin-bottom: 10px;" name="password">
+        <h3>Enter password again:</h3>
+        <input type="password" class="form-control" style="width: 50%; margin-bottom: 10px;" name="new_password">
+        <h3>Enter emergency Email:</h3>
+        <div class="new_contact">
+            <input type="text" class="form-control " style="width: 50%; margin-bottom: 10px;" name="phone">
+        </div>
+        <div style="padding-bottom: 50px;">
+            <button type="button" class="btn btn-primary add_new" style="position:absolute;left :190px;">Add New Contact</button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary login-btn" style="margin-top: 20px; margin-bottom: 10px;">Create</button>
+        </div>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(".add_new").click(function (event) {
+            $(".new_contact").append('<input type="text" class="form-control" style="width: 50%; margin-bottom: 10px;" name="phone">');
+        });
+    </script>
+</body>
+<%- include("Partials/footer"); -%>
