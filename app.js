@@ -3,17 +3,25 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const ejs = require("ejs");
-const bcrypt = require("bcrypt");
-const saltRound = 10;
-
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 const app = express();
 
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+app.use(session({
+    secret:"hi",
+    resave:false,
+    saveUninitialized:false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 mongoose.connect("mongodb://0.0.0.0:27017/safedriveDB",{useNewUrlParser : true ,useUnifiedTopology: true});
+mongoose.set("useCreateIndex",true);
 
 const feedbackSchema = new mongoose.Schema({
     name : String,
@@ -22,26 +30,24 @@ const feedbackSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
+    name : String,
     email : String,
-    nums: Array,
-    password: String,
-    status: Number
+    emails : Array,
+    password : String,
 });
+
+userSchema.plugin(passportLocalMongoose);
 
 const Feedback = mongoose.model("Feedback",feedbackSchema);
 const User = mongoose.model("User",userSchema);
 
-var loggedIn=0;
-var currUser;
-var phNums = new Array;
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.route("/")
     .get(function(req,res){
-        if(loggedIn === 1){
-            res.render("index",{loggedIn:"Logout"});
-        }else{
-            res.render("index",{loggedIn:"Login"});
-        }
+        res.render("index");
     });
 
 app.route("/demo")
@@ -115,41 +121,32 @@ app.route("/login")
         res.render("login");
     })
     .post(function(req,res){
-
-        var userEmail = req.body.username;
-        var userPassword = req.body.password;
-        User.findOne({email:userEmail},function(err,foundEmail){
+        var username = req.body.username;
+        var password = req.body.password;  
+        var id;
+        const user = new User({
+            username: username,
+            password: password
+        });
+        req.login(user,function(err){
+            
             if(err){
                 console.log(err);
             }else{
-                if(foundEmail){
-
-                    bcrypt.hash(userPassword,saltRound,function(err,hash){
-                        bcrypt.compare(userPassword,foundEmail.password,function(err,result){
-                            if(err){
-                                console.log(err);
-                            }else{
-                                if(result === true){
-                                    currUser=userEmail;
-                                    foundEmail.status=1;
-                                    loggedIn=1;
-                                    phNums = foundEmail.nums;
-                                    foundEmail.save();
-                                    console.log("Logged in");
-                                    res.redirect("/home");
-                                }else{
-                                    console.log("Wrong Password");
-                                    res.redirect("/login");
-                                }
-                            }
-                        });
-                    });
-                }else{
-                    console.log("User not found.");
-                    res.redirect("/create");
-                }
+                passport.authenticate("local");
+                id = user._id;
+                res.redirect("/home?uID="+id);
             }
-        });
+        })
+    });
+
+app.route("/home")
+    .get(function(req,res){
+        if(req.isAuthenticated()){
+            res.render("home");
+        }else{
+            res.redirect("/login");
+        }
     });
 
 app.route("/create")
@@ -157,69 +154,34 @@ app.route("/create")
         res.render("create");
     })
     .post(function(req,res){
-        
+
         var userEmail = req.body.username;
         var userPassword = req.body.password;
         var userNew_password = req.body.new_password;
-        var userContact1 = req.body.phone;
+        var userContact = req.body.phone;
+        
+        if(userPassword != userNew_password){
+            console.log("Password doesn't match");
+            res.redirect("/create");
+        }
 
-        User.findOne({email:userEmail},function(err,foundEmail){
+        User.register({username:userEmail} , userPassword , function(err,user){
             if(err){
                 console.log(err);
+                res.redirect("/create");
             }else{
-                if(foundEmail){
-                    console.log("Email already exist!");
-                    res.redirect("/login");
-                }else{
-                    if(userPassword != userNew_password){
-                        console.log("Password Not matched");
-                        res.redirect("/create");
-                    }else{
-                        bcrypt.hash(userPassword,saltRound,function(err,hash){
-
-                            if(err){
-                                console.log(err);
-                            }else{
-                                const newUser = new User({
-                                    email: userEmail,
-                                    nums: [userContact1],
-                                    password: hash,
-                                    status:0
-                                });
-                                
-                                newUser.save(function(err){
-                                    if(err){
-                                        console.log("Error adding new user");
-                                        res.redirect("/create")
-                                    }else{
-                                        console.log("User added");
-                                    }
-                                });
-                            }     
-                        }); 
-                    }
-                }
+                passport.authenticate("local")(req,res,function(){
+                    res.redirect("/home?uID="+user._id);
+                });
             }
-        });
-
-        res.redirect("/login");
+        })
     });
 
 app.route("/logout")
     .get(function(req,res){
-        console.log("Logged Out");
-        User.findOne({email:currUser},function(err,foundEmail){
-            if(err){
-                console.log(err);
-            }else{
-                if(foundEmail){
-                    foundEmail.status = 0;
-                    foundEmail.save();
-                }
-            }
-        });
-        loggedIn=0;
-        res.redirect("/login");
+        req.logout();
+        req.session.destroy();
+        res.redirect("/");
     });
 
 app.listen(3000,function(req,res){

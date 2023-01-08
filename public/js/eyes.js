@@ -4,18 +4,19 @@ async function loadTfModel(){
     return m;
 }
 let model = loadTfModel();
-var curr_user = $(".curr_user").attr("data-curr_user");
-var ph_nums = $(".ph_nums").attr("data-ph_nums");
-
+//var curr_user = $(".curr_user").attr("data-curr_user");
+//var emails = $(".emails").attr("data-emails");
+var curr_user = "a";
+var emails = ["asd","asda"];
 var total_email = new Array;
 var temp_string = new String;
 
-for (var i=0; i<ph_nums.length;i++){
-    if(ph_nums[i]===','){
+for (var i=0; i<emails.length;i++){
+    if(emails[i]===','){
         total_email.push(temp_string);
         temp_string="";
     }else{
-        temp_string+=ph_nums[i];
+        temp_string+=emails[i];
     }
 };
 
