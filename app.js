@@ -17,8 +17,14 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function(req,res,next){
+    res.locals.isAuthenticated = req.isAuthenticated();
+    next();
+});
 
 mongoose.connect("mongodb://0.0.0.0:27017/safedriveDB",{useNewUrlParser : true ,useUnifiedTopology: true});
 mongoose.set("useCreateIndex",true);
@@ -44,6 +50,8 @@ const User = mongoose.model("User",userSchema);
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+
 
 app.route("/")
     .get(function(req,res){
@@ -179,7 +187,11 @@ app.route("/create")
 
 app.route("/logout")
     .get(function(req,res){
-        req.logout();
+        req.logout(function(err){
+            if(err){
+                console.log(err);
+            }
+        });
         req.session.destroy();
         res.redirect("/");
     });

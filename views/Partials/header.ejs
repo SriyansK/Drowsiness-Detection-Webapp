@@ -17,7 +17,11 @@
                 <li id="home"><a href="/" style="color:rgb(224, 221, 221);">HOME</a></li>
                 <li id="about"><a href="about" style="color:rgb(224, 221, 221);">ABOUT</a></li>
                 <li id="contacts"><a href="contacts" style="color:rgb(224, 221, 221);">CONTACT</a></li>
-                <li id="login" class="login"><a href="login" style="color:rgb(224, 221, 221);">LOGIN</a></li>
+                <% if (isAuthenticated) { %>
+                    <li id = login><a href="/logout" style="color:rgb(224, 221, 221);">LOGOUT</a></li>
+                    <% } else { %> 
+                    <li id = login><a href="/login" style="color:rgb(224, 221, 221);">LOGIN</a></li>
+                <% } %>
             </ul>
         </div>
     </nav>
