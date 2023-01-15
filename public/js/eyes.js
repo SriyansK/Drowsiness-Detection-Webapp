@@ -4,10 +4,9 @@ async function loadTfModel(){
     return m;
 }
 let model = loadTfModel();
-//var curr_user = $(".curr_user").attr("data-curr_user");
-//var emails = $(".emails").attr("data-emails");
-var curr_user = "a";
-var emails = ["asd","asda"];
+var curr_user = $(".curr_username").text();
+var emails = $(".curr_emails").text();
+
 var total_email = new Array;
 var temp_string = new String;
 
@@ -19,29 +18,18 @@ for (var i=0; i<emails.length;i++){
         temp_string+=emails[i];
     }
 };
+total_email.push(temp_string);
 
 var body = curr_user + " is drowsy please inform."
-function sendEmail(){
-    for(var i=0;i<total_email.length;i++){
-        var reciever_email = total_email[i];
-        Email.send({
-            Host : "",
-            Username : "",
-            Password : "",
-            To : reciever_email,
-            From : "",
-            Subject : "Emergency Alert!!!",
-            Body : body
-        }).then(
-          message => {
-              if(message === "OK"){
-                  console.log("Message Sent");
-              }else{
-                  console.log(message);
-              }
-          }
-        );
-    };
+function sendNotification(){
+    Alert = new String;
+    Alert =  "Sending Alert to users : ";
+    for(var i=0;i<total_email.length-1;i++){
+        Alert = Alert + total_email[i]+ " , "
+    }
+    Alert  = Alert + total_email[total_email.length-1];
+
+    $(".alert").text(Alert);
 }
 
 function openCvReady() {
@@ -97,9 +85,8 @@ function openCvReady() {
         cnt/=l;
     
         if(cnt>=75){
-            $(".alert").text("Sending Alert!!!");
             console.log("Alert!!!");
-            sendEmail();
+            sendNotification();
         }else{
             console.log("Fine");
         }

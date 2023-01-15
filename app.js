@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const e = require("express");
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -36,42 +37,86 @@ const feedbackSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
+    email : String,
+    password : String,
+});
+
+const userDataSchema = new mongoose.Schema({
     name : String,
     email : String,
     emails : Array,
-    password : String,
 });
 
 userSchema.plugin(passportLocalMongoose);
 
 const Feedback = mongoose.model("Feedback",feedbackSchema);
 const User = mongoose.model("User",userSchema);
+const UserDataSchema = mongoose.model("UserDataSchema" ,userDataSchema);
 
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
-
 app.route("/")
     .get(function(req,res){
-        res.render("index");
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("index",{username : newUser.name , emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("index",);
+        }
+        
     });
 
 app.route("/demo")
     .get(function(req,res){
-        res.render("demo");
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("demo",{username : newUser.name, emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("demo",);
+        }
     });
 
 
 app.route("/feedbackAc")
     .get(function(req,res){
-        res.render('feedbackAc');
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("feedbackAc",{username : newUser.name, emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("feedbackAc",);
+        }
     });
 
 app.route("/contacts")
     .get(function(req,res){
-        res.render("contacts");
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("contacts",{username : newUser.name, emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("contacts",);
+        }
     })
     .post(function(req,res){
         var newName = req.body.name;
@@ -121,12 +166,32 @@ app.route("/contacts")
 
 app.route("/about")
     .get(function(req,res){
-        res.render("about");
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("about",{username : newUser.name, emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("about",);
+        }
     });
 
 app.route("/login")
     .get(function(req,res){
-        res.render("login");
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("login",{username : newUser.name, emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("login",);
+        }
     })
     .post(function(req,res){
         var username = req.body.username;
@@ -151,18 +216,36 @@ app.route("/login")
 app.route("/home")
     .get(function(req,res){
         if(req.isAuthenticated()){
-            res.render("home");
+            console.log(req.user.username);
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("home",{username : newUser.name, emails:newUser.emails});
+                }
+            });
         }else{
-            res.redirect("/login");
+            res.redirect("/create");
         }
     });
 
 app.route("/create")
     .get(function(req,res){
-        res.render("create");
+        if(req.isAuthenticated()){
+            UserDataSchema.findOne({email:req.user.username},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("create",{username : newUser.name, emails:newUser.emails});
+                }
+            });
+        }else{
+            res.render("create");
+        }
     })
     .post(function(req,res){
 
+        var userName = req.body.name;
         var userEmail = req.body.username;
         var userPassword = req.body.password;
         var userNew_password = req.body.new_password;
@@ -180,6 +263,20 @@ app.route("/create")
             }else{
                 passport.authenticate("local")(req,res,function(){
                     res.redirect("/home?uID="+user._id);
+                });
+
+                const newUser = UserDataSchema({
+                    name : userName,
+                    email : userEmail,
+                    emails : userContact,
+                });
+        
+                newUser.save(function(err){
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log("New user added");
+                    }
                 });
             }
         })

@@ -19,12 +19,22 @@
                 <li id="contacts"><a href="contacts" style="color:rgb(224, 221, 221);">CONTACT</a></li>
                 <% if (isAuthenticated) { %>
                     <li id = login><a href="/logout" style="color:rgb(224, 221, 221);">LOGOUT</a></li>
+                    <li>
+                        <div class="dropdown">
+                            <button class="dropbtn curr_username" ><a href="home" style="color:rgb(224, 221, 221);"><%=username%></a></button>
+                            <div class="dropdown-content">
+                            <a class = "curr_emails"><%=emails%></a>
+                            </div>
+                        </div>
+                    </li>
                     <% } else { %> 
                     <li id = login><a href="/login" style="color:rgb(224, 221, 221);">LOGIN</a></li>
                 <% } %>
             </ul>
         </div>
     </nav>
+    <div>
+    </div>
 </head>
 
 <body>
