@@ -6,6 +6,7 @@ async function loadTfModel(){
 let model = loadTfModel();
 var curr_user = $(".curr_username").text();
 var emails = $(".curr_emails").text();
+var userid = $(".curr_userid").text();
 
 var total_email = new Array;
 var temp_string = new String;
@@ -30,6 +31,11 @@ function sendNotification(){
     Alert  = Alert + total_email[total_email.length-1];
 
     $(".alert").text(Alert);
+    $.post('/notify', { 
+        email: userid,
+        friends: total_email,
+        name: curr_user 
+    });
 }
 
 function openCvReady() {

@@ -47,11 +47,17 @@ const userDataSchema = new mongoose.Schema({
     emails : Array,
 });
 
+const notificationSchema = new mongoose.Schema({
+    userid : String,
+    emails : Array,
+});
+
 userSchema.plugin(passportLocalMongoose);
 
 const Feedback = mongoose.model("Feedback",feedbackSchema);
 const User = mongoose.model("User",userSchema);
 const UserDataSchema = mongoose.model("UserDataSchema" ,userDataSchema);
+const Notification = mongoose.model("notificationSchema",notificationSchema);
 
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
@@ -64,7 +70,17 @@ app.route("/")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("index",{username : newUser.name , emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("index",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
@@ -80,7 +96,17 @@ app.route("/demo")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("demo",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("demo",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
@@ -96,7 +122,17 @@ app.route("/feedbackAc")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("feedbackAc",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("feedbackAc",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
@@ -111,7 +147,17 @@ app.route("/contacts")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("contacts",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("contacts",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
@@ -171,7 +217,17 @@ app.route("/about")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("about",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("about",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
@@ -186,7 +242,17 @@ app.route("/login")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("login",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("login",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
@@ -216,17 +282,80 @@ app.route("/login")
 app.route("/home")
     .get(function(req,res){
         if(req.isAuthenticated()){
-            console.log(req.user.username);
+            
             UserDataSchema.findOne({email:req.user.username},function(err,newUser){
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("home",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        console.log(newArr);
+                        res.render("home",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{
             res.redirect("/create");
         }
+    });
+
+app.route("/notify")
+    .post(function(req,res){
+
+        var friendsArr = req.body.friends;
+        var total_len = friendsArr.length;
+        for(var i=0;i<total_len;i++){
+            var friend = friendsArr[i];
+            UserDataSchema.findOne({email:friend},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    if(!newUser){
+                        console.log("User Not found");
+                    }else{
+                        console.log("User found");
+                    }
+                }
+            });
+            Notification.findOne({userid:friend},function(err,newUser){
+                if(err){
+                    console.log(err);
+                }else{
+                    if(!newUser){
+                        var newFriendArray = new Array;
+                        newFriendArray.push(req.body.email);
+                        newNotification = new Notification({
+                            userid : friend,
+                            emails : newFriendArray,
+                        });
+                        newNotification.save(function(err){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                console.log("New Notification added");
+                            }
+                        });
+                    }else{
+                        newUser.emails.push(req.body.email);
+                        newUser.save(function(err){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                console.log("Notification added");
+                            }
+                        });
+                    }                
+                }
+            });
+        }
+        res.redirect("/");
     });
 
 app.route("/create")
@@ -236,7 +365,17 @@ app.route("/create")
                 if(err){
                     console.log(err);
                 }else{
-                    res.render("create",{username : newUser.name, emails:newUser.emails});
+                    var newArr = new Array;
+                    Notification.findOne({userid:req.user.username},function(err,newUser1){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            if(newUser1){
+                                newArr = newUser1.emails;    
+                            }  
+                        }
+                        res.render("create",{username : newUser.name, emails:newUser.emails, email:newUser.email, Friends:newArr});
+                    });
                 }
             });
         }else{

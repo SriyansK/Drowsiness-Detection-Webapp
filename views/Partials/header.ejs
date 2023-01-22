@@ -23,7 +23,31 @@
                         <div class="dropdown">
                             <button class="dropbtn curr_username" ><a href="home" style="color:rgb(224, 221, 221);"><%=username%></a></button>
                             <div class="dropdown-content">
-                            <a class = "curr_emails"><%=emails%></a>
+                            <a class = "curr_emails" style="font-size: 0px;"><%=emails%></a>
+                            <a class = "curr_userid" style="font-size: 0px;"><%=email%></a>
+                            <a class = "friends" ><%=Friends%></a>
+                            
+                            <script>
+                                var friends = $(".friends").text();
+                                var friendLen = friends.length;
+                                var total_email = new Array;
+                                var temp_string = "";
+                                console.log(friends);
+                                console.log(friendLen);
+                                for (var i=0; i<friendLen;i++){
+                                    if(friends[i]===','){
+                                        total_email.push(temp_string);
+                                        temp_string="";
+                                    }else{
+                                        temp_string+=friends[i];
+                                    }
+                                };
+                                if(total_email.length !=0 ){
+                                    for(var i=0;i<total_email.length;i++){
+                                        $(".dropdown-content").append('<a class = "friends">'+total_email[i]+'</a>');
+                                    }
+                                }
+                            </script>
                             </div>
                         </div>
                     </li>
